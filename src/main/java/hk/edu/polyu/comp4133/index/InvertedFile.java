@@ -5,11 +5,17 @@ package hk.edu.polyu.comp4133.index;
  * The built index should be persisted, either in a binary file or the database.
  * The index has document length data built-in.
  */
-public class InvertedIndex {
+public class InvertedFile {
+    enum BuildMode {
+        IN_MEMORY,
+        SORT_BASED,
+        MERGE_BASED
+    }
+
     /**
      * Build the index.
      */
-    public void build(PostInputStream is) {
+    public void build(PostInputStream is, BuildMode mode, int threshold) {
         // TODO
     }
 
