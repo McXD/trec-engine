@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c49623b9-f2ff-41de-8250-c7585ad86a01" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/index/DocumentLength.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/index/InvertedIndex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/index/InvertedFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/index/Posting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/index/Posting.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/search/Engine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/search/Engine.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -165,7 +161,9 @@
       <option name="presentableId" value="Default" />
       <updated>1667805153326</updated>
       <workItem from="1667805155219" duration="14613000" />
-      <workItem from="1667963407965" duration="2647000" />
+      <workItem from="1667963407965" duration="3285000" />
+      <workItem from="1668061201673" duration="48000" />
+      <workItem from="1668427528417" duration="2163000" />
     </task>
     <servers />
   </component>
