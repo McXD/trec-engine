@@ -6,6 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="c49623b9-f2ff-41de-8250-c7585ad86a01" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/cmd/CMDOptions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/cmd/CMDOptions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/index/InvertedFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/index/InvertedFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/index/PostingList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/index/PostingList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/search/Engine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/search/Engine.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -88,7 +93,7 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;
   }
 }</component>
-  <component name="RunManager" selected="Gradle.trec-engine [build]">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="hk.edu.polyu.comp4133.Main" />
       <module name="trec-engine.main" />
@@ -163,7 +168,7 @@
       <workItem from="1667805155219" duration="14613000" />
       <workItem from="1667963407965" duration="3285000" />
       <workItem from="1668061201673" duration="48000" />
-      <workItem from="1668427528417" duration="2163000" />
+      <workItem from="1668427528417" duration="5531000" />
     </task>
     <servers />
   </component>

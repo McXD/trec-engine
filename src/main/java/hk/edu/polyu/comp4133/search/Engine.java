@@ -26,11 +26,11 @@ public class Engine {
         LOCAL_CORRELATION_ANALYSIS
     }
 
-    public List<TRECResult> search(TRECQuery query) {
+    public List<TRECResult> search(TRECQuery query, int topK, QueryExpansion expansion) {
         return null;
     }
 
-    public List<TRECResult> search(List<TRECQuery> queries) {
+    public List<TRECResult> search(List<TRECQuery> queries, int topK, QueryExpansion expansion) {
         return null;
     }
 }

@@ -2,7 +2,7 @@ package hk.edu.polyu.comp4133.index;
 
 /**
  * The inverted index. An index instance is built on a pre-processed corpus.
- * The built index should be persisted, either in a binary file or the database.
+ * The built index should be persisted in a file, either binary or text.
  * The index has document length data built-in.
  */
 public class InvertedFile {
@@ -10,6 +10,17 @@ public class InvertedFile {
         IN_MEMORY,
         SORT_BASED,
         MERGE_BASED
+    }
+
+    enum LoadMode {
+        /**
+         * Load the entire structure to memory.
+         */
+        FULL,
+        /**
+         * Only load the dictionary and pointers to the postings (on disk). Lazy-load the postings. Free when memory is low.
+         */
+        DICTIONARY
     }
 
     /**

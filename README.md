@@ -27,6 +27,7 @@ usage: java -jar trec.jar
 | Java               | 8       | Java SDK               |
 | Gradle             | 7.4     | Build Tool             |
 | Apache Commons CLI | 1.5     | Command Line Interface |
+| Log4J              | 2.19.0  | Logging                |
 | ./dat/post.txt     | NA      | Postings File          |
 | ./dat/files.txt    | NA      | Document Metadata      |
 | ./dat/query.txt    | NA      | Query File             |
