@@ -8,9 +8,11 @@ package hk.edu.polyu.comp4133.index;
 public class Posting {
     public int docId;
     public int termFreq;
+    public int position;
 
-    public Posting(int docId, int termFreq) {
+    public Posting(int docId, int termFreq, int position) {
         this.docId = docId;
         this.termFreq = termFreq;
+        this.position = position;
     }
 }
