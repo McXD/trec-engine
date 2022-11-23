@@ -35,7 +35,11 @@ public class InvertedFile {
      */
     public PostingList getPostingList(String term) {
         // TODO
-        return null;
+        String termKey = getKeyForTerm(term);
+        HashMap<String, Posting> block = this.getPostingsBlock(termKey);
+
+        //lookup in the termsPostings list and return the postings for this term
+        return (Posting)block.get(term);
     }
 
     /**

@@ -13,7 +13,7 @@ public class PostingList implements Iterable<Posting> {
      */
     public void addPosting(Posting posting) {
         // TODO
-        HashMap<String, List<Posting>> block = new HashMap<String, int<docId>>();
+        HashMap<String, Posting> block = new HashMap<String, int<docId>>();
     }
 
     /**
