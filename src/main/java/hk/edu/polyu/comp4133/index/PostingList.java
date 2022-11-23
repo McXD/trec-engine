@@ -1,6 +1,8 @@
 package hk.edu.polyu.comp4133.index;
 
 import java.util.Iterator;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * A posting list is a list @see{Posting}s _ordered_ by the document id. It is also iterable (over the underlying postings).
@@ -11,6 +13,7 @@ public class PostingList implements Iterable<Posting> {
      */
     public void addPosting(Posting posting) {
         // TODO
+        HashMap<String, List<Posting>> block = new HashMap<String, int<docId>>();
     }
 
     /**
@@ -18,7 +21,7 @@ public class PostingList implements Iterable<Posting> {
      */
     public int getDocFreq() {
         // TODO
-        return 0;
+        return block.get(docId);
     }
 
     @Override
