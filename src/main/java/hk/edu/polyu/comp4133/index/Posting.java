@@ -1,5 +1,4 @@
 package hk.edu.polyu.comp4133.index;
-
 /**
  * A single posting.
  * Contains the document ID, term frequency.

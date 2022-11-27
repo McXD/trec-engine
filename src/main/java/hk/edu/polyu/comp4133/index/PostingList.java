@@ -1,7 +1,8 @@
+
 package hk.edu.polyu.comp4133.index;
 
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -11,17 +12,18 @@ public class PostingList implements Iterable<Posting> {
     /**
      * Add a posting to the posting list
      */
+    List<Posting> postingList = new ArrayList<Posting>();
     public void addPosting(Posting posting) {
         // TODO
-        HashMap<String, Posting> block = new HashMap<String, int<docId>>();
+        this.postingList.add(posting);
     }
 
     /**
      * Get the number of postings in the list
      */
     public int getDocFreq() {
-        // TODO
-        return block.get(docId);
+        // may be need to modify?
+        return this.postingList.size();
     }
 
     @Override
