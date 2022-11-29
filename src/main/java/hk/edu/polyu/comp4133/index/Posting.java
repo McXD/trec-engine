@@ -34,6 +34,20 @@ public class Posting implements Serializable {
                 '}';
     }
 
+    public String toCompactString() {
+        return String.join(",", positions.stream().map(Object::toString).toArray(String[]::new));
+    }
+
+    public static Posting fromCompactString(String s) {
+        String[] parts = s.split(",");
+        int docId = Integer.parseInt(parts[0]);
+        Posting posting = new Posting(docId, Integer.parseInt(parts[1]));
+        for (int i = 2; i < parts.length; i++) {
+            posting.addPosition(Integer.parseInt(parts[i]));
+        }
+        return posting;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

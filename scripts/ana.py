@@ -17,7 +17,7 @@ def read_posts(path = '../dat/post.txt'):
   return pl
 
 # Leverage the fact that post.txt is ordered by docId and position
-def read_doc(id=0, path='../dat/post.txt'):
+def read_doc(id=0, path='dat/post.txt'):
   words = []
   with open(path, 'r', encoding="ISO-8859-1") as f:
     l = f.readline()
@@ -32,5 +32,7 @@ def read_doc(id=0, path='../dat/post.txt'):
         break
   return words
 
-doc = read_doc(id=10)
-print(sorted(doc))
+doc = read_doc(id=5)
+print(len(doc))
+doc = read_doc(id=111)
+print(len(doc))

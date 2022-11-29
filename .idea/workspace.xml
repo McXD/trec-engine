@@ -5,18 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c49623b9-f2ff-41de-8250-c7585ad86a01" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/index/InMemoryInvertedFile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/index/InvertedFile.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/index/PostInputStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/index/PostInputStream.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/ana.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/ana.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/index/Posting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/index/Posting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/index/PostingList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/index/PostingList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/post.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/post.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,9 +56,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin Class" />
+        <option value="Interface" />
         <option value="Class" />
         <option value="JUnit5 Test Class" />
-        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -89,33 +82,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "extract.method.default.visibility": "private",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="hk.edu.polyu.comp4133.utils" />
       <recent name="hk.edu.polyu.comp4133.index" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.trec-engine">
-    <configuration name="InMemoryInvertedFileTest.canPersist" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="Gradle.RedisInvertedFileTest.build">
+    <configuration name="FileUtilsTest.splitFile" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -128,7 +123,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;hk.edu.polyu.comp4133.index.InMemoryInvertedFileTest.canPersist&quot;" />
+            <option value="&quot;hk.edu.polyu.comp4133.utils.FileUtilsTest.splitFile&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -138,7 +133,7 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="trec-engine [run --args=&quot;--index ./dat/post.txt ./dat/post.bin&quot;]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="FileUtilsTest.test" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -149,18 +144,19 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="run" />
-            <option value="--args=&quot;--index ./dat/post.txt ./dat/post.bin&quot;" />
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;hk.edu.polyu.comp4133.utils.FileUtilsTest.test&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="trec-engine [run --args=&quot;-h&quot;]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="RedisInvertedFileTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -171,18 +167,19 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="run" />
-            <option value="--args=&quot;-h&quot;" />
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;hk.edu.polyu.comp4133.index.RedisInvertedFileTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="trec-engine [run]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="RedisInvertedFileTest.build" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -193,17 +190,19 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="run" />
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;hk.edu.polyu.comp4133.index.RedisInvertedFileTest.build&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="trec-engine" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="RedisInvertedFileTest.load" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -213,22 +212,26 @@
           <list />
         </option>
         <option name="taskNames">
-          <list />
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;hk.edu.polyu.comp4133.index.RedisInvertedFileTest.load&quot;" />
+          </list>
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.trec-engine" />
-        <item itemvalue="Gradle.trec-engine [run --args=&quot;--index ./dat/post.txt ./dat/post.bin&quot;]" />
-        <item itemvalue="Gradle.trec-engine [run --args=&quot;-h&quot;]" />
-        <item itemvalue="Gradle.trec-engine [run]" />
-        <item itemvalue="Gradle.InMemoryInvertedFileTest.canPersist" />
+        <item itemvalue="Gradle.RedisInvertedFileTest.build" />
+        <item itemvalue="Gradle.FileUtilsTest.splitFile" />
+        <item itemvalue="Gradle.RedisInvertedFileTest.load" />
+        <item itemvalue="Gradle.RedisInvertedFileTest" />
+        <item itemvalue="Gradle.FileUtilsTest.test" />
       </list>
     </recent_temporary>
   </component>
@@ -247,7 +250,7 @@
       <workItem from="1668655920672" duration="1853000" />
       <workItem from="1669641286597" duration="1972000" />
       <workItem from="1669643279351" duration="9528000" />
-      <workItem from="1669652832211" duration="3295000" />
+      <workItem from="1669652832211" duration="22145000" />
     </task>
     <servers />
   </component>
