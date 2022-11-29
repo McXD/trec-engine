@@ -6,7 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="c49623b9-f2ff-41de-8250-c7585ad86a01" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/index/Posting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/index/Posting.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/prep/PorterStemmer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/prep/PorterStemmer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/prep/Preprocessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/prep/Preprocessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/prep/StopWordChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/prep/StopWordChecker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/prep/stopword.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +58,7 @@
         <option value="Kotlin Class" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -77,6 +81,9 @@
   "keyToString": {
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "last_opened_file_path": "/Users/fengyunlin/Git/trec-engine/dat",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -88,7 +95,18 @@
     "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/dat" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="hk.edu.polyu.comp4133.prep" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Gradle.PreprocessorTest.preprocess">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="hk.edu.polyu.comp4133.Main" />
       <module name="trec-engine.main" />
@@ -101,6 +119,52 @@
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
+    </configuration>
+    <configuration name="PorterStemmerTest.stem" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;hk.edu.polyu.comp4133.prep.PorterStemmerTest.stem&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="PreprocessorTest.preprocess" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;hk.edu.polyu.comp4133.prep.PreprocessorTest.preprocess&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
     </configuration>
     <configuration name="trec-engine [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
@@ -146,6 +210,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.PreprocessorTest.preprocess" />
+        <item itemvalue="Gradle.PorterStemmerTest.stem" />
         <item itemvalue="Gradle.trec-engine [build]" />
         <item itemvalue="Gradle.trec-engine [jar]" />
         <item itemvalue="Application.Main" />
