@@ -2,6 +2,10 @@ package hk.edu.polyu.comp4133.index;
 
 import com.google.common.collect.Iterables;
 import hk.edu.polyu.comp4133.utils.FileUtils;
+import me.tongfei.progressbar.DelegatingProgressBarConsumer;
+import me.tongfei.progressbar.ProgressBar;
+import me.tongfei.progressbar.ProgressBarBuilder;
+import me.tongfei.progressbar.ProgressBarStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
@@ -24,7 +28,6 @@ public class RedisInvertedFile implements InvertedFile {
     }
 
     public Void buildPart(long start, long end, File file) throws IOException {
-        logger.info("Building index from {} to {}", start, end);
         InputStream is = Files.newInputStream(file.toPath());
         is.skip(start);
         BufferedReader bf = new BufferedReader(new InputStreamReader(is));
@@ -34,12 +37,21 @@ public class RedisInvertedFile implements InvertedFile {
         int currentDocId = -1;
         Map<String, Posting> postingPerDoc = new HashMap<>();
 
+
+        ProgressBar pb = new ProgressBarBuilder()
+                .setTaskName(String.format("Building %8d", start))
+                .setInitialMax(end - start)
+                .setConsumer(new DelegatingProgressBarConsumer(logger::info))
+                .setStyle(ProgressBarStyle.ASCII)
+                .build();
+
         while (nRead < nTotal) {
             String line = bf.readLine();
             if (line == null) { // EOF
                 break;
             }
             nRead += line.length() + 2;  // +2 for \r\n
+            pb.stepBy(line.length() + 2);
 
             String[] parts = line.split(" ");
             String term = parts[0];
@@ -66,7 +78,6 @@ public class RedisInvertedFile implements InvertedFile {
         // flush last posting list
         flush(currentDocId, postingPerDoc);
 
-        logger.info("Finished building index for {} from {} to {}", file.getName(), start, end);
         return null;
     }
 
@@ -87,10 +98,16 @@ public class RedisInvertedFile implements InvertedFile {
         }
 
         jedis.close();
-        logger.info("Indexed document {}", docId);
     }
 
     private void calcDocLengthPart(double corpusSize, Set<String> keys) {
+        ProgressBar pb = new ProgressBarBuilder()
+                .setTaskName("Calculating doc length")
+                .setInitialMax(keys.size())
+                .setConsumer(new DelegatingProgressBarConsumer(logger::info))
+                .setStyle(ProgressBarStyle.ASCII)
+                .build();
+
         Jedis jedis = jedisPool.getResource();
 
         for (String key : keys) { // all docs
@@ -108,6 +125,8 @@ public class RedisInvertedFile implements InvertedFile {
             }
             jedis.set("len:" + key.substring(5), String.valueOf(Math.sqrt(sum)));
             jedis.del(key);
+
+            pb.step();
         }
 
         jedis.close();

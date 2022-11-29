@@ -7,11 +7,6 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 
 class RedisInvertedFileTest {
-    @BeforeAll
-    static void setup() {
-        BasicConfigurator.configure();
-    }
-
     @Test
     void build() throws IOException, InterruptedException {
         RedisInvertedFile invertedFile = new RedisInvertedFile("localhost", 6379);
