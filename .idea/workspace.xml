@@ -6,7 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="c49623b9-f2ff-41de-8250-c7585ad86a01" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/index/Posting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/index/Posting.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/index/RedisInvertedFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hk/edu/polyu/comp4133/index/RedisInvertedFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/hk/edu/polyu/comp4133/index/RedisInvertedFileTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/hk/edu/polyu/comp4133/index/RedisInvertedFileTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,10 +57,16 @@
         <option value="Kotlin Class" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -77,6 +85,10 @@
   "keyToString": {
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "extract.method.default.visibility": "private",
+    "last_opened_file_path": "/Users/fengyunlin/Git/trec-engine/src/main/resources",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -85,24 +97,23 @@
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.Main">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="hk.edu.polyu.comp4133.Main" />
-      <module name="trec-engine.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="hk.edu.polyu.comp4133.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="trec-engine [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="hk.edu.polyu.comp4133.utils" />
+      <recent name="hk.edu.polyu.comp4133.index" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Gradle.trec-engine [run --args=&quot;--index dat/post.txt;localhost:6379&quot;]">
+    <configuration name="FileUtilsTest.splitFile" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -113,28 +124,100 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="build" />
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;hk.edu.polyu.comp4133.utils.FileUtilsTest.splitFile&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="trec-engine [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="RedisInvertedFileTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
+        <option name="scriptParameters" value="" />
         <option name="taskDescriptions">
           <list />
         </option>
         <option name="taskNames">
           <list>
-            <option value="jar" />
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;hk.edu.polyu.comp4133.index.RedisInvertedFileTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="RedisInvertedFileTest.build" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;hk.edu.polyu.comp4133.index.RedisInvertedFileTest.build&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="RedisInvertedFileTest.load" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;hk.edu.polyu.comp4133.index.RedisInvertedFileTest.load&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="trec-engine [run --args=&quot;--index dat/post.txt;localhost:6379&quot;]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="run" />
+            <option value="--args=&quot;--index dat/post.txt;localhost:6379&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -146,9 +229,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.trec-engine [build]" />
-        <item itemvalue="Gradle.trec-engine [jar]" />
-        <item itemvalue="Application.Main" />
+        <item itemvalue="Gradle.trec-engine [run --args=&quot;--index dat/post.txt;localhost:6379&quot;]" />
+        <item itemvalue="Gradle.RedisInvertedFileTest.build" />
+        <item itemvalue="Gradle.RedisInvertedFileTest.load" />
+        <item itemvalue="Gradle.RedisInvertedFileTest" />
+        <item itemvalue="Gradle.FileUtilsTest.splitFile" />
       </list>
     </recent_temporary>
   </component>
@@ -164,7 +249,10 @@
       <workItem from="1667963407965" duration="3285000" />
       <workItem from="1668061201673" duration="48000" />
       <workItem from="1668427528417" duration="6662000" />
-      <workItem from="1668655920672" duration="869000" />
+      <workItem from="1668655920672" duration="1853000" />
+      <workItem from="1669641286597" duration="1972000" />
+      <workItem from="1669643279351" duration="9528000" />
+      <workItem from="1669652832211" duration="25225000" />
     </task>
     <servers />
   </component>

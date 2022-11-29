@@ -8,6 +8,15 @@ public interface PostInputStream extends AutoCloseable {
         public String term;
         public int docId;
         public int position;
+
+        @Override
+        public String toString() {
+            return "PostEntry{" +
+                    "term='" + term + '\'' +
+                    ", docId=" + docId +
+                    ", position=" + position +
+                    '}';
+        }
     }
 
     /**
