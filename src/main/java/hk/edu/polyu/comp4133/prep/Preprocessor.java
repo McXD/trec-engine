@@ -6,8 +6,27 @@ public class Preprocessor {
      * 1. Remove all stop words
      * 2. Stem all terms
      */
+
     public String preprocess(String term) {
-        // TODO
-        return null;
+        StopWordChecker stopWordChecker = new StopWordChecker();
+        String [] query = term.split(" ");
+
+        // Removing all the stop words
+        String processedQuery = "";
+        for (int i = 0; i < query.length; i++){
+            if (!stopWordChecker.isStopWord(query[i])){
+                processedQuery += query[i] + " ";
+            }
+        }
+
+        // Stemming all terms
+        query = processedQuery.split(" ");
+        processedQuery = "";
+        PorterStemmer porterStemmer = new PorterStemmer();
+        for (int i = 0; i < query.length; i++){
+            processedQuery += porterStemmer.stem(query[i]) + " ";
+        }
+
+        return processedQuery;
     }
 }
