@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 group 'hk.edu.polyu.comp4133'
@@ -19,6 +20,10 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+application {
+    mainClassName = 'hk.edu.polyu.comp4133.Main'
 }
 
 jar {
