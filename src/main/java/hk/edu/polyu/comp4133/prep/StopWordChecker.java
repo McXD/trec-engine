@@ -15,7 +15,7 @@ public class StopWordChecker {
 
     StopWordChecker(){
         //read from stopword.txt to get all the stop word
-        File file = new File(".\\stopword.txt");
+        File file = new File("./stopword.txt");
         try{
             BufferedReader br = new BufferedReader(new FileReader(file));
             String stopWord;
@@ -25,6 +25,7 @@ public class StopWordChecker {
             while ((stopWord = br.readLine()) != null){
                 ts.add(stopWord);
             }
+            br.close();
         }
         catch (FileNotFoundException e){
             System.out.println("stop word list file not found" + e);
