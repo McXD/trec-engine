@@ -32,7 +32,6 @@ def read_doc(id=0, path='dat/post.txt'):
         break
   return words
 
-doc = read_doc(id=5)
-print(len(doc))
-doc = read_doc(id=111)
-print(len(doc))
+
+doc = read_doc(id=30669)
+print(doc)

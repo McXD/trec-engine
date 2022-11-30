@@ -3,7 +3,7 @@ package hk.edu.polyu.comp4133.index;
 import java.io.*;
 
 public class FilePostInputStream implements PostInputStream {
-    private BufferedReader bf;
+    private final BufferedReader bf;
 
     /**
      * Construct a FilePostInputStream from a file.

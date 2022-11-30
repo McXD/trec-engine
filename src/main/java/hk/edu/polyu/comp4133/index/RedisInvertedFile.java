@@ -25,6 +25,7 @@ public class RedisInvertedFile implements InvertedFile {
 
     public RedisInvertedFile(String host, int port) {
         jedisPool = new JedisPool(host, port);
+        logger.info("Connected to Redis server at {}:{}", host, port);
     }
 
     public Void buildPart(long start, long end, File file) throws IOException {
@@ -100,7 +101,7 @@ public class RedisInvertedFile implements InvertedFile {
         jedis.close();
     }
 
-    private void calcDocLengthPart(double corpusSize, Set<String> keys) {
+    public void calcDocLengthPart(double corpusSize, Set<String> keys) {
         ProgressBar pb = new ProgressBarBuilder()
                 .setTaskName("Calculating doc length")
                 .setInitialMax(keys.size())
@@ -143,6 +144,13 @@ public class RedisInvertedFile implements InvertedFile {
         return () -> buildPart(start, end, file);
     }
 
+    private void setCorpusSize(int size) {
+        Jedis jedis = jedisPool.getResource();
+        jedis.set("meta:corpusSize", String.valueOf(size));
+        logger.info("Written corpus size: {}", size);
+        jedis.close();
+    }
+
     public void build(int nThreads, String postPath) throws IOException, InterruptedException {
         long[] positions = FileUtils.splitFile(postPath, nThreads);
         List<Callable<Void>> tasks = new ArrayList<>();
@@ -159,7 +167,8 @@ public class RedisInvertedFile implements InvertedFile {
         tasks = new ArrayList<>();
         Set<String> keys = jedisPool.getResource().keys("freq:*");
         double corpusSize = keys.size();
-        for (List<String> partition : Iterables.partition(keys, nThreads)) {
+        setCorpusSize((int) corpusSize);
+        for (List<String> partition : Iterables.partition(keys, (int) corpusSize / nThreads)) {
             tasks.add(calcDocLengthPartTask(corpusSize, new HashSet<>(partition)));
         }
         es.invokeAll(tasks);
@@ -187,5 +196,13 @@ public class RedisInvertedFile implements InvertedFile {
         String result = jedis.get("len:" + docId);
         jedis.close();
         return Double.parseDouble(result);
+    }
+
+    @Override
+    public int getDocCount() {
+        Jedis jedis = jedisPool.getResource();
+        String result = jedis.get("meta:corpusSize");
+        jedis.close();
+        return Integer.parseInt(result);
     }
 }

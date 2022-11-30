@@ -1,0 +1,1 @@
+./gradlew run --args="-r ./dat/queryT.txt -o ./dat/output.txt -k 1 -e 0 -t 10"
