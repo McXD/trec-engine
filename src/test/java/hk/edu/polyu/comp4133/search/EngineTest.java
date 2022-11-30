@@ -18,7 +18,7 @@ class EngineTest {
                 new RedisDocumentMapper("localhost", 6379)
         );
 
-        BufferedReader queries = new BufferedReader(new FileReader("dat/queryT.txt"));
+        BufferedReader queries = new BufferedReader(new FileReader("dat/queryTDN.txt"));
 
         for (int i = 0; i < 10; i++) {
             String line = queries.readLine();

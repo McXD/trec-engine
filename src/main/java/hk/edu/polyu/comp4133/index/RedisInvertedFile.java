@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -18,13 +19,15 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static hk.edu.polyu.comp4133.utils.JedisUtils.buildPoolConfig;
+
 public class RedisInvertedFile implements InvertedFile {
     JedisPool jedisPool;
 
     private final Logger logger = LoggerFactory.getLogger(RedisInvertedFile.class);
 
     public RedisInvertedFile(String host, int port) {
-        jedisPool = new JedisPool(host, port);
+        jedisPool = new JedisPool(buildPoolConfig(), host, port);
         logger.info("Connected to Redis server at {}:{}", host, port);
     }
 
@@ -178,31 +181,29 @@ public class RedisInvertedFile implements InvertedFile {
 
     @Override
     public PostingList getPostingList(String term) {
-        Jedis jedis = jedisPool.getResource();
-        List<String> result = jedis.lrange("ind:" + term, 0, -1);
+        try (Jedis jedis = jedisPool.getResource()) {
+            List<String> result = jedis.lrange("ind:" + term, 0, -1);
 
-        PostingList postingList = new PostingList();
-        for (String s : result) {
-            postingList.addPosting(Posting.fromCompactString(s));
+            PostingList postingList = new PostingList();
+            for (String s : result) {
+                postingList.addPosting(Posting.fromCompactString(s));
+            }
+
+            return postingList;
         }
-
-        jedis.close();
-        return postingList;
     }
 
     @Override
     public double getDocLength(int docId) {
-        Jedis jedis = jedisPool.getResource();
-        String result = jedis.get("len:" + docId);
-        jedis.close();
-        return Double.parseDouble(result);
+        try (Jedis jedis = jedisPool.getResource()) {
+            return Double.parseDouble(jedis.get("len:" + docId));
+        }
     }
 
     @Override
     public int getDocCount() {
-        Jedis jedis = jedisPool.getResource();
-        String result = jedis.get("meta:corpusSize");
-        jedis.close();
-        return Integer.parseInt(result);
+        try (Jedis jedis = jedisPool.getResource()) {
+            return Integer.parseInt(jedis.get("meta:corpusSize"));
+        }
     }
 }

@@ -1,1 +1,1 @@
-./gradlew run --args="-r ./dat/queryT.txt -o ./dat/output.txt -k 1 -e 0 -t 10"
+./gradlew run --args="-r ./dat/queryT.txt -o ./dat/T0.txt -k 10 -e 0 -t 15"

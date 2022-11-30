@@ -1,6 +1,7 @@
 package hk.edu.polyu.comp4133.index;
 
 import hk.edu.polyu.comp4133.utils.FileUtils;
+import hk.edu.polyu.comp4133.utils.JedisUtils;
 import me.tongfei.progressbar.DelegatingProgressBarConsumer;
 import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarBuilder;
@@ -19,9 +20,8 @@ import java.util.logging.Logger;
 
 public class RedisDocumentMapper implements DocumentMapper {
     JedisPool jedisPool;
-
     public RedisDocumentMapper(String host, int port) {
-        jedisPool = new JedisPool(host, port);
+        jedisPool = new JedisPool(JedisUtils.buildPoolConfig(), host, port);
     }
 
     public void index(String filePath, int nThreads) throws IOException, InterruptedException {
@@ -83,7 +83,6 @@ public class RedisDocumentMapper implements DocumentMapper {
 
     @Override
     public String map(int docId) {
-        // TODO: repeated open and close connection is costly
         try (Jedis jedis = jedisPool.getResource()) {
             return jedis.get("name:" + docId);
         }
