@@ -14,7 +14,7 @@ class MainTest {
         String stopWordPath = "dat/stopwords.txt";
         int topK = 10;
         int expand = 0;
-        int nThreads = 1;
+        int nThreads = 5;
         Main.retrieveAll(queryPath, outputPath, stopWordPath, topK, expand, nThreads);
     }
 }

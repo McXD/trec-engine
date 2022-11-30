@@ -39,6 +39,10 @@ public class Main {
                 String redisUrl = input.split(";")[1];
                 System.out.println("Indexing " + inPath + " to " + redisUrl);
                 buildIndex(inPath, redisUrl);
+            }  else if (cmd.hasOption("d")) {
+                String input = cmd.getOptionValue("d");
+                int nThreads = Integer.parseInt(cmd.getOptionValue("t", "1"));
+                buildDocMap(input, nThreads);
             } else if (cmd.hasOption("r")) {
                 String queryPath = cmd.getOptionValue("r");
                 String outputPath = cmd.getOptionValue("o");
@@ -70,6 +74,11 @@ public class Main {
         inv.build(10, inPath);
     }
 
+    public static void buildDocMap(String inPath, int nThreads) throws IOException, InterruptedException {
+        RedisDocumentMapper docMap = new RedisDocumentMapper(System.getenv("REDIS_HOST"), Integer.parseInt(System.getenv("REDIS_PORT")));
+        docMap.index(inPath, nThreads);
+    }
+
     public static void retrieveAll(String queryFilePath, String outputPath, String stopWordPath, int topK, int expand, int nThreads) throws IOException {
         logger.info("Retrieving from {} to {} with topK = {}, expand = {}, nThreads = {}", queryFilePath, outputPath, topK, expand, nThreads);
 
@@ -78,8 +87,9 @@ public class Main {
         long total = Files.lines(new File(queryFilePath).toPath()).count();
         BufferedWriter output = new BufferedWriter(new FileWriter(outputPath));
         InvertedFile inv = new RedisInvertedFile(System.getenv("REDIS_HOST"), Integer.parseInt(System.getenv("REDIS_PORT")));
+        RedisDocumentMapper docMap = new RedisDocumentMapper(System.getenv("REDIS_HOST"), Integer.parseInt(System.getenv("REDIS_PORT")));
         Preprocessor preprocessor = new Preprocessor(stopWordPath);
-        Engine e = new Engine(inv, preprocessor);
+        Engine e = new Engine(inv, preprocessor, docMap);
         ExecutorService es = Executors.newFixedThreadPool(nThreads);
         ProgressBar pb = new ProgressBarBuilder()
                 .setTaskName("Retrieving")
@@ -139,6 +149,7 @@ public class Main {
         options.addOption("t", "threads", true, "number of threads to use. default: 1");
         options.addOption("o", "output", true, "output file path. default: output.txt");
         options.addOption("p", "stopwords", true, "stopwords file path. default: stopwords.txt");
+        options.addOption("d", "docmap", true, "document mapping file path. default: file.txt");
 
         return options;
     }

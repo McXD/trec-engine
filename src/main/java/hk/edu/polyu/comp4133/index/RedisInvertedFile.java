@@ -152,7 +152,7 @@ public class RedisInvertedFile implements InvertedFile {
     }
 
     public void build(int nThreads, String postPath) throws IOException, InterruptedException {
-        long[] positions = FileUtils.splitFile(postPath, nThreads);
+        long[] positions = FileUtils.splitFileByDoc(postPath, nThreads);
         List<Callable<Void>> tasks = new ArrayList<>();
         for (int i = 0; i < nThreads; i++) {
             long start = i == 0 ? 0 : positions[i - 1];

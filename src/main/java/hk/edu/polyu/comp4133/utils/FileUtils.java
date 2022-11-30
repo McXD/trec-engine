@@ -5,7 +5,7 @@ import java.io.RandomAccessFile;
 
 public class FileUtils {
     // returns offsets of starting positions that roughly divide the file into nThreads parts
-    public static long[] splitFile(String path, int nParts) throws IOException {
+    public static long[] splitFileByDoc(String path, int nParts) throws IOException {
         RandomAccessFile file = new RandomAccessFile(path, "r");
         long fSize = file.length();
         long tSize = fSize / nParts;
@@ -27,6 +27,22 @@ public class FileUtils {
             }
 
             offsets[i] = file.getFilePointer() - line.length() - 2;
+        }
+
+        return offsets;
+    }
+
+    public static long[] splitFileByLine(String path, int nParts) throws IOException {
+        RandomAccessFile file = new RandomAccessFile(path, "r");
+        long fSize = file.length();
+        long tSize = fSize / nParts;
+        long[] offsets = new long[nParts];
+        offsets[nParts - 1] = fSize;
+
+        for (int i = 0; i < nParts - 1; i++) {
+            file.seek(tSize * (i + 1));
+            file.readLine();  // skip the current line since it may be incomplete
+            offsets[i] = file.getFilePointer();
         }
 
         return offsets;

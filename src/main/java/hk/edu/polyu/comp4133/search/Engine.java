@@ -1,8 +1,6 @@
 package hk.edu.polyu.comp4133.search;
 
-import hk.edu.polyu.comp4133.index.InvertedFile;
-import hk.edu.polyu.comp4133.index.Posting;
-import hk.edu.polyu.comp4133.index.PostingList;
+import hk.edu.polyu.comp4133.index.*;
 import hk.edu.polyu.comp4133.prep.Preprocessor;
 
 import java.util.*;
@@ -14,13 +12,15 @@ import java.util.stream.Collectors;
  * An engine instance should also have reference to the document collection corresponding to the index (i.e., the `file.txt`).
  */
 public class Engine {
-    private Logger logger = Logger.getLogger(Engine.class.getName());
+    private final Logger logger = Logger.getLogger(Engine.class.getName());
     private final InvertedFile index;
     private final Preprocessor preprocessor;
+    private final DocumentMapper mapper;
 
-    public Engine(InvertedFile index, Preprocessor preprocessor) {
+    public Engine(InvertedFile index, Preprocessor preprocessor, DocumentMapper mapper) {
         this.index = index;
         this.preprocessor = preprocessor;
+        this.mapper = mapper;
     }
 
     public enum QueryExpansion {
@@ -92,9 +92,11 @@ public class Engine {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 
         int rank = 0;
+        String docName;
         List<TRECResult> ret = new ArrayList<>();
         for (Map.Entry<Integer, Double> entry : sorted.entrySet()) {
-            ret.add(new TRECResult(query.id, entry.getKey(), rank, entry.getValue()));
+            docName = mapper.map(entry.getKey());
+            ret.add(new TRECResult(query.id, entry.getKey(), docName, rank, entry.getValue()));
             rank++;
         }
 
