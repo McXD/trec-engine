@@ -47,11 +47,13 @@ public class Main {
                 String queryPath = cmd.getOptionValue("r");
                 String outputPath = cmd.getOptionValue("o");
                 String stopWordPath = cmd.getOptionValue("p");
+                int mode = Integer.parseInt(cmd.getOptionValue("m", "0"));
                 int topK = Integer.parseInt(cmd.getOptionValue("k"));
-                int expand = Integer.parseInt(cmd.getOptionValue("e"));
+                int expand = Integer.parseInt(cmd.getOptionValue("e", "0"));
                 int nThreads = Integer.parseInt(cmd.getOptionValue("t"));
+                int maxDistance = Integer.parseInt(cmd.getOptionValue("x", "10"));
 
-                retrieveAll(queryPath, outputPath, stopWordPath, topK, expand, nThreads);
+                retrieveAll(queryPath, outputPath, stopWordPath, topK, mode, expand, maxDistance, nThreads);
             } else if (cmd.hasOption("s")) {
                 String query = cmd.getOptionValue("s");
                 System.out.println("Searching " + query);
@@ -79,10 +81,11 @@ public class Main {
         docMap.index(inPath, nThreads);
     }
 
-    public static void retrieveAll(String queryFilePath, String outputPath, String stopWordPath, int topK, int expand, int nThreads) throws IOException {
+    public static void retrieveAll(String queryFilePath, String outputPath, String stopWordPath, int topK, int mode, int expand, int maxDistance, int nThreads) throws IOException {
         logger.info("Retrieving from {} to {} with topK = {}, expand = {}, nThreads = {}", queryFilePath, outputPath, topK, expand, nThreads);
 
         Engine.QueryExpansion expansion = Engine.QueryExpansion.values()[expand];
+        Engine.QueryMode modeEnum = Engine.QueryMode.values()[mode];
         BufferedReader queries = new BufferedReader(new FileReader(queryFilePath));
         long total = Files.lines(new File(queryFilePath).toPath()).count();
         BufferedWriter output = new BufferedWriter(new FileWriter(outputPath));
@@ -108,7 +111,7 @@ public class Main {
             queryId = Integer.parseInt(line.split(" ")[0]);
             queryText = line.substring(line.indexOf(" ") + 1);
             query = new TRECQuery(queryId, queryText);
-            futures.add(es.submit(searchTask(e, query, topK, expansion, pb)));
+            futures.add(es.submit(searchTask(e, query, topK, modeEnum, expansion, maxDistance, pb)));
         }
 
         // futures are ordered by queryId (as we submit them in order)
@@ -130,9 +133,9 @@ public class Main {
         output.close();
     }
 
-    static Callable<List<TRECResult>> searchTask(Engine e, TRECQuery query, int topK, Engine.QueryExpansion expansion, ProgressBar pb) {
+    static Callable<List<TRECResult>> searchTask(Engine e, TRECQuery query, int topK, Engine.QueryMode mode, Engine.QueryExpansion expansion, int maxDistance, ProgressBar pb) {
         return () -> {
-            List<TRECResult> results = e.search(query, topK, expansion);
+            List<TRECResult> results = e.search(query, topK, mode, expansion, maxDistance);
             pb.step();
             return results;
         };
@@ -150,6 +153,8 @@ public class Main {
         options.addOption("o", "output", true, "output file path. default: output.txt");
         options.addOption("p", "stopwords", true, "stopwords file path. default: stopwords.txt");
         options.addOption("d", "docmap", true, "document mapping file path. default: file.txt");
+        options.addOption("m", "mode", true, "query mode: 0 for VSM, 1 for proximity. default: 0");
+        options.addOption("x", "max-distance", true, "maximum distance between two terms in a phrase query. default: 10");
 
         return options;
     }

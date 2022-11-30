@@ -32,4 +32,12 @@ public class TRECResult {
     public String toTRECString(String runId) {
         return String.format("%d Q0 %s %d %.2f %s", queryId, docName, ranking, score, runId);
     }
+
+    public static <T> double getScore(T t) {
+        if (t instanceof TRECResult) {
+            return ((TRECResult) t).score;
+        } else {
+            return 0;
+        }
+    }
 }

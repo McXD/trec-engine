@@ -26,7 +26,27 @@ class EngineTest {
             String queryText = line.substring(line.indexOf(" ") + 1);
 
             System.out.println(line);
-            System.out.println(e.search(new TRECQuery(queryId, queryText), 10, Engine.QueryExpansion.NONE));
+            System.out.println(e.search(new TRECQuery(queryId, queryText), 10, Engine.QueryMode.VSM, Engine.QueryExpansion.NONE, 0));
+        }
+    }
+
+    @Test
+    void proximitySearch() throws IOException {
+        Engine e = new Engine(
+                new RedisInvertedFile("localhost", 6379),
+                new Preprocessor("dat/stopwords.txt"),
+                new RedisDocumentMapper("localhost", 6379)
+        );
+
+        BufferedReader queries = new BufferedReader(new FileReader("dat/queryT.txt"));
+
+        for (int i = 0; i < 10; i++) {
+            String line = queries.readLine();
+            int queryId = Integer.parseInt(line.split(" ")[0]);
+            String queryText = line.substring(line.indexOf(" ") + 1);
+
+            System.out.println(line);
+            System.out.println(e.searchWithProximity(new TRECQuery(queryId, queryText), 50, 2));
         }
     }
 }

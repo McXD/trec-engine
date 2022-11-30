@@ -2,6 +2,7 @@ package hk.edu.polyu.comp4133.search;
 
 import hk.edu.polyu.comp4133.index.*;
 import hk.edu.polyu.comp4133.prep.Preprocessor;
+import hk.edu.polyu.comp4133.utils.SearchUtils;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -23,6 +24,9 @@ public class Engine {
         this.mapper = mapper;
     }
 
+    public enum QueryMode {
+        VSM, PROXIMITY
+    }
     public enum QueryExpansion {
         /**
          * Do not expand query
@@ -42,9 +46,20 @@ public class Engine {
         LOCAL_CORRELATION_ANALYSIS
     }
 
-    public List<TRECResult> search(TRECQuery query, int topK, QueryExpansion expansion) {
+    public List<TRECResult> search(TRECQuery query, int topK, QueryMode mode, QueryExpansion expansion, int maxDistance) {
         preprocessQuery(query);
 
+        switch (mode) {
+            case VSM:
+                return searchVSM(query, topK, expansion);
+            case PROXIMITY:
+                return searchWithProximity(query, topK, maxDistance);
+            default:
+                throw new IllegalArgumentException("Unknown query mode: " + mode);
+        }
+    }
+
+    public List<TRECResult> searchVSM(TRECQuery query, int topK, QueryExpansion expansion) {
         switch (expansion) {
             case NONE:
                 return searchNonExpanded(query, topK);
@@ -101,6 +116,43 @@ public class Engine {
         }
 
         return ret;
+    }
+
+    /**
+     * Used for short queries (queryT.txt).
+     */
+    public List<TRECResult> searchWithProximity(TRECQuery query, int topK, int maxDistance) {
+        preprocessQuery(query);
+
+        List<String> terms = Arrays.asList(query.text.split(" "));
+        Map<Integer, Map<String, List<Integer>>> positions = new HashMap<>(); // docId -> term -> positions
+        PostingList pl;
+        for (String term : terms) {
+            pl = index.getPostingList(term);
+            for (Posting p : pl) {
+                positions.putIfAbsent(p.docId, new HashMap<>());
+                positions.get(p.docId).put(term, p.positions);
+            }
+        }
+
+        List<TRECResult> results = new ArrayList<>();
+        for (Map.Entry<Integer, Map<String, List<Integer>>> entry : positions.entrySet()) {
+            if (entry.getValue().size() < terms.size()) {  // doesn't contain all terms
+                continue;
+            }
+
+            Map<String, List<Integer>> termPositions = entry.getValue().entrySet().stream()
+                    .sorted(Map.Entry.comparingByValue(Comparator.comparingInt(List::size)))  // sort by term frequency from low to high
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+
+            List<List<Integer>> chains = new ArrayList<>();
+            SearchUtils.searchProximity(chains, new ArrayList<>(), terms, termPositions, maxDistance);
+            results.add(new TRECResult(query.id, entry.getKey(), mapper.map(entry.getKey()), 0, chains.size()));
+        }
+        results.sort(Comparator.comparingDouble(TRECResult::getScore).reversed());
+        results.forEach(r -> r.ranking = results.indexOf(r));
+
+        return results.subList(0, Math.min(topK, results.size()));
     }
 
     private Map<String, Double> textToWordVector(String text) {
