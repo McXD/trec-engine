@@ -34,27 +34,22 @@ public class Main {
                 HelpFormatter formatter = new HelpFormatter();
                 formatter.printHelp("java -jar trec.jar", options);
             } else if (cmd.hasOption("i")) {
-                String inPath = cmd.getOptionValue("i");
-                int nThreads = Integer.parseInt(cmd.getOptionValue("t", "10"));
-                buildIndex(inPath, nThreads);
+                String inPath = cmd.getOptionValue("i", "./dat/post.txt");
+                buildIndex(inPath, getNThreads(cmd));
             }  else if (cmd.hasOption("d")) {
-                String input = cmd.getOptionValue("d");
-                int nThreads = Integer.parseInt(cmd.getOptionValue("t", "1"));
-                buildDocMap(input, nThreads);
+                String input = cmd.getOptionValue("d", "./dat/file.txt");
+                buildDocMap(input, getNThreads(cmd));
             } else if (cmd.hasOption("r")) {
-                String queryPath = cmd.getOptionValue("r");
-                String outputPath = cmd.getOptionValue("o", "stdout");
-                String stopWordPath = cmd.getOptionValue("p");
+                String queryPath = cmd.getOptionValue("r", "./dat/queryT.txt");
+                String outputPath = cmd.getOptionValue("o", "result.txt");
+                String stopWordPath = cmd.getOptionValue("p", "./dat/stopwords.txt");
                 int mode = Integer.parseInt(cmd.getOptionValue("m", "0"));
-                int topK = Integer.parseInt(cmd.getOptionValue("k"));
+                int topK = Integer.parseInt(cmd.getOptionValue("k", "1000"));
                 int expand = Integer.parseInt(cmd.getOptionValue("e", "0"));
-                int nThreads = Integer.parseInt(cmd.getOptionValue("t"));
+                int nThreads = getNThreads(cmd);
                 int maxDistance = Integer.parseInt(cmd.getOptionValue("x", "10"));
 
                 retrieveAll(queryPath, outputPath, stopWordPath, topK, mode, expand, maxDistance, nThreads);
-            } else if (cmd.hasOption("s")) {
-                String query = cmd.getOptionValue("s");
-                System.out.println("Searching " + query);
             }
         } catch (ParseException e) {
             System.out.println(e.getMessage());
@@ -83,12 +78,7 @@ public class Main {
         Engine.QueryMode modeEnum = Engine.QueryMode.values()[mode];
         BufferedReader queries = new BufferedReader(new FileReader(queryFilePath));
         long total = Files.lines(new File(queryFilePath).toPath()).count();
-        BufferedWriter output;
-        if (outputPath.equals("stdout")) {
-            output = new BufferedWriter(new OutputStreamWriter(System.out));
-        } else {
-            output = new BufferedWriter(new FileWriter(outputPath));
-        }
+        BufferedWriter output = new BufferedWriter(new FileWriter(outputPath));
         InvertedFile inv = new RedisInvertedFile(System.getenv("REDIS_HOST"), Integer.parseInt(System.getenv("REDIS_PORT")));
         RedisDocumentMapper docMap = new RedisDocumentMapper(System.getenv("REDIS_HOST"), Integer.parseInt(System.getenv("REDIS_PORT")));
         Preprocessor preprocessor = new Preprocessor(stopWordPath);
@@ -141,18 +131,22 @@ public class Main {
         };
     }
 
+    static int getNThreads(CommandLine cmd) {
+        return Integer.parseInt(cmd.getOptionValue("t", "10"));
+    }
+
     static Options getOptions() {
         Options options = new Options();
         options.addOption("h", "help", false, "print this message");
-        options.addOption("i", "index", true, "build index for the given postings file");
-        options.addOption("r", "retrieve", true, "retrieve documents for the given query file");
+        options.addOption("i", "index", true, "build index for the given postings file. default: ./dat/post.txt");
+        options.addOption("r", "retrieve", true, "retrieve documents for the given query file. default: ./dat/queryT.txt");
         options.addOption("k", "top-k", true, "top k documents to retrieve. default: 1000");
-        options.addOption("e", "expansion", true, "query expansion: 0 for none, 1 for pseudo relevance feedback, 2 for local association analysis, 3 for local correlation analysis. default: 0");
-        options.addOption("t", "threads", true, "number of threads to use. default: 1");
+        options.addOption("e", "expansion", true, "query expansion method for VSM mode: 0 for none, 1 for weighted, 2 for pseudo relevance feedback, 3 for local association analysis, 4 for local correlation analysis. default: 0");
+        options.addOption("t", "threads", true, "number of threads to use. default: 10");
         options.addOption("o", "output", true, "output file path. default: output.txt");
-        options.addOption("p", "stopwords", true, "stopwords file path. default: stopwords.txt");
-        options.addOption("d", "docmap", true, "build document map. default: file.txt");
-        options.addOption("m", "mode", true, "query mode: 0 for VSM, 1 for proximity. default: 0");
+        options.addOption("p", "stopwords", true, "stopwords file path. default: ./dat/stopwords.txt");
+        options.addOption("d", "docmap", true, "build document map. default: ./dat/file.txt");
+        options.addOption("m", "mode", true, "query mode: 0 for VSM, 1 for Proximity. default: 0");
         options.addOption("x", "max-distance", true, "maximum distance between two terms in a phrase query. default: 10");
 
         return options;
