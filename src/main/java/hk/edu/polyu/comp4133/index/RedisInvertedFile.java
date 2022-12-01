@@ -31,7 +31,7 @@ public class RedisInvertedFile implements InvertedFile {
         logger.info("Connected to Redis server at {}:{}", host, port);
     }
 
-    public Void buildPart(long start, long end, File file) throws IOException {
+    public Void buildPart(long start, long end, File file, ProgressBar pb) throws IOException {
         InputStream is = Files.newInputStream(file.toPath());
         is.skip(start);
         BufferedReader bf = new BufferedReader(new InputStreamReader(is));
@@ -40,14 +40,6 @@ public class RedisInvertedFile implements InvertedFile {
         long nTotal = end - start;
         int currentDocId = -1;
         Map<String, Posting> postingPerDoc = new HashMap<>();
-
-
-        ProgressBar pb = new ProgressBarBuilder()
-                .setTaskName(String.format("Building %8d", start))
-                .setInitialMax(end - start)
-                .setConsumer(new DelegatingProgressBarConsumer(logger::info))
-                .setStyle(ProgressBarStyle.ASCII)
-                .build();
 
         while (nRead < nTotal) {
             String line = bf.readLine();
@@ -104,14 +96,7 @@ public class RedisInvertedFile implements InvertedFile {
         jedis.close();
     }
 
-    public void calcDocLengthPart(double corpusSize, Set<String> keys) {
-        ProgressBar pb = new ProgressBarBuilder()
-                .setTaskName("Calculating doc length")
-                .setInitialMax(keys.size())
-                .setConsumer(new DelegatingProgressBarConsumer(logger::info))
-                .setStyle(ProgressBarStyle.ASCII)
-                .build();
-
+    public void calcDocLengthPart(double corpusSize, Set<String> keys, ProgressBar pb) {
         Jedis jedis = jedisPool.getResource();
 
         for (String key : keys) { // all docs
@@ -136,15 +121,15 @@ public class RedisInvertedFile implements InvertedFile {
         jedis.close();
     }
 
-    public Callable<Void> calcDocLengthPartTask(double corpusSize, Set<String> keys) {
+    public Callable<Void> calcDocLengthPartTask(double corpusSize, Set<String> keys, ProgressBar pb) {
         return () -> {
-            calcDocLengthPart(corpusSize, keys);
+            calcDocLengthPart(corpusSize, keys, pb);
             return null;
         };
     }
 
-    public Callable<Void> buildPartTask(long start, long end, File file) {
-        return () -> buildPart(start, end, file);
+    public Callable<Void> buildPartTask(long start, long end, File file, ProgressBar pb) throws IOException {
+        return () -> buildPart(start, end, file, pb);
     }
 
     private void setCorpusSize(int size) {
@@ -155,24 +140,38 @@ public class RedisInvertedFile implements InvertedFile {
     }
 
     public void build(int nThreads, String postPath) throws IOException, InterruptedException {
+        File postFile = new File(postPath);
+        long fileSize = postFile.length();
+        ProgressBar pb = new ProgressBarBuilder()
+                .setTaskName("Building Index")
+                .setInitialMax(fileSize)
+                .setConsumer(new DelegatingProgressBarConsumer(logger::info))
+                .setStyle(ProgressBarStyle.ASCII)
+                .build();
+
         long[] positions = FileUtils.splitFileByDoc(postPath, nThreads);
         List<Callable<Void>> tasks = new ArrayList<>();
         for (int i = 0; i < nThreads; i++) {
             long start = i == 0 ? 0 : positions[i - 1];
             long end = positions[i];
-            tasks.add(buildPartTask(start, end, new File(postPath)));
+            tasks.add(buildPartTask(start, end, postFile, pb));
         }
         ExecutorService es = Executors.newFixedThreadPool(nThreads);
         es.invokeAll(tasks);
 
         logger.info("Finished building index. Starting to calculate document length.");
-
         tasks = new ArrayList<>();
         Set<String> keys = jedisPool.getResource().keys("freq:*");
+        pb = new ProgressBarBuilder()
+                .setTaskName("Calculating doc length")
+                .setInitialMax(keys.size())
+                .setConsumer(new DelegatingProgressBarConsumer(logger::info))
+                .setStyle(ProgressBarStyle.ASCII)
+                .build();
         double corpusSize = keys.size();
         setCorpusSize((int) corpusSize);
         for (List<String> partition : Iterables.partition(keys, (int) corpusSize / nThreads)) {
-            tasks.add(calcDocLengthPartTask(corpusSize, new HashSet<>(partition)));
+            tasks.add(calcDocLengthPartTask(corpusSize, new HashSet<>(partition), pb));
         }
         es.invokeAll(tasks);
 

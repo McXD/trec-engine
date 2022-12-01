@@ -34,11 +34,9 @@ public class Main {
                 HelpFormatter formatter = new HelpFormatter();
                 formatter.printHelp("java -jar trec.jar", options);
             } else if (cmd.hasOption("i")) {
-                String input = cmd.getOptionValue("i");
-                String inPath = input.split(";")[0];
-                String redisUrl = input.split(";")[1];
-                System.out.println("Indexing " + inPath + " to " + redisUrl);
-                buildIndex(inPath, redisUrl);
+                String inPath = cmd.getOptionValue("i");
+                int nThreads = Integer.parseInt(cmd.getOptionValue("t", "10"));
+                buildIndex(inPath, nThreads);
             }  else if (cmd.hasOption("d")) {
                 String input = cmd.getOptionValue("d");
                 int nThreads = Integer.parseInt(cmd.getOptionValue("t", "1"));
@@ -68,12 +66,9 @@ public class Main {
         }
     }
 
-    public static void buildIndex(String inPath, String redisUrl) throws IOException, InterruptedException {
-        String host = redisUrl.split(":")[0];
-        int port = Integer.parseInt(redisUrl.split(":")[1]);
-
-        RedisInvertedFile inv = new RedisInvertedFile(host, port);
-        inv.build(10, inPath);
+    public static void buildIndex(String inPath, int nThreads) throws IOException, InterruptedException {
+        RedisInvertedFile inv = new RedisInvertedFile(System.getenv("REDIS_HOST"), Integer.parseInt(System.getenv("REDIS_PORT")));
+        inv.build(nThreads, inPath);
     }
 
     public static void buildDocMap(String inPath, int nThreads) throws IOException, InterruptedException {
@@ -151,13 +146,12 @@ public class Main {
         options.addOption("h", "help", false, "print this message");
         options.addOption("i", "index", true, "build index for the given postings file");
         options.addOption("r", "retrieve", true, "retrieve documents for the given query file");
-        options.addOption("s", "search", true, "search based on the given query");
         options.addOption("k", "top-k", true, "top k documents to retrieve. default: 1000");
         options.addOption("e", "expansion", true, "query expansion: 0 for none, 1 for pseudo relevance feedback, 2 for local association analysis, 3 for local correlation analysis. default: 0");
         options.addOption("t", "threads", true, "number of threads to use. default: 1");
         options.addOption("o", "output", true, "output file path. default: output.txt");
         options.addOption("p", "stopwords", true, "stopwords file path. default: stopwords.txt");
-        options.addOption("d", "docmap", true, "document mapping file path. default: file.txt");
+        options.addOption("d", "docmap", true, "build document map. default: file.txt");
         options.addOption("m", "mode", true, "query mode: 0 for VSM, 1 for proximity. default: 0");
         options.addOption("x", "max-distance", true, "maximum distance between two terms in a phrase query. default: 10");
 
