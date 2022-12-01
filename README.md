@@ -40,7 +40,6 @@ The program can also be run without an explicit build step using the Gradle wrap
 ./gradlew run --args="..."
 ```
 
-
 ## Data and Dependencies
 
 | Name                | Version | Description        |
@@ -54,6 +53,8 @@ The program can also be run without an explicit build step using the Gradle wrap
 | ./dat/stopwords.txt | NA      | Stopwords  List    |
 | ./eval/trec_eval    | NA      | Evaluation Tool    |
 | ./eval/judgerobust  | NA      | Benchmarking File  |
+
+Since the current indexing procesure is slow, a pre-built index is made available [here](https://drive.google.com/file/d/1FNsLe3iYNzbMkhCEc-0o7tLIi-LDT4JN/view?usp=share_link). Refer to [this post](https://stackoverflow.com/questions/14497234/how-to-recover-redis-data-from-snapshotrdb-file-copied-from-another-machine) to understand how to use this file.
 
 ## Examples
 
