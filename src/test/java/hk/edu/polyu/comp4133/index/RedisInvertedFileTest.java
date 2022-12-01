@@ -33,7 +33,7 @@ class RedisInvertedFileTest {
         Set<String> keys = jedis.keys("freq:*");
         List<Callable<Void>>  tasks = new ArrayList<>();
         for (List<String> partition : Iterables.partition(keys, 3000)) {
-            tasks.add(inv.calcDocLengthPartTask(corpusSize, new HashSet<>(partition)));
+            tasks.add(inv.calcDocLengthPartTask(corpusSize, new HashSet<>(partition), null));
         }
         es.invokeAll(tasks);
     }

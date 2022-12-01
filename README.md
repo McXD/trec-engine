@@ -1,5 +1,21 @@
 # TREC Search Engine
 
+## Project Structure
+
+```text
+trec-engine
+|-- README.md
+|-- build.gradle
+|-- dat // various data (see dependencies), not version-controlled
+|-- eval // evaluation results, not version-controlled
+|-- gradle
+|-- gradlew
+|-- gradlew.bat
+|-- scripts // misc scripts
+|-- settings.gradle
+`-- src // java source files
+```
+
 ## Usage
 
 ```text
@@ -29,7 +45,7 @@ usage: java -jar trec.jar
 ## Build
 
 ```bash
-./gradlew build
+./gradlew build -x test
 
 # Output in ./build/libs/trec.jar
 ```
@@ -45,7 +61,7 @@ The program can also be run without an explicit build step using the Gradle wrap
 | Name                | Version | Description        |
 |---------------------|---------|--------------------|
 | Java                | 8       | Java SDK           |
-| Gradle              | 7.3     | Build Tool         |
+| Gradle              | 7.4     | Build Tool         |
 | ./dat/post.txt      | NA      | Postings File      |
 | ./dat/file.txt      | NA      | Document Metadata  |
 | ./dat/queryT.txt    | NA      | Query File (short) |
