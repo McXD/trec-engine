@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -18,6 +17,7 @@ import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 import static hk.edu.polyu.comp4133.utils.JedisUtils.buildPoolConfig;
 
@@ -204,6 +204,19 @@ public class RedisInvertedFile implements InvertedFile {
     public int getDocCount() {
         try (Jedis jedis = jedisPool.getResource()) {
             return Integer.parseInt(jedis.get("meta:corpusSize"));
+        }
+    }
+
+    public List<Double> getDocLengths(List<Integer> ids) {
+        int[] tmp = new int[ids.size()];
+        for (int i = 0; i < ids.size(); i++) {
+            tmp[i] = ids.get(i);
+        }
+
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.mget(Arrays.stream(tmp).mapToObj(i -> "len:" + i).toArray(String[]::new))
+                    .stream()
+                    .map(Double::parseDouble).collect(Collectors.toList());
         }
     }
 }

@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
  * An engine instance should also have reference to the document collection corresponding to the index (i.e., the `file.txt`).
  */
 public class Engine {
-    private final Logger logger = Logger.getLogger(Engine.class.getName());
     private final InvertedFile index;
     private final Preprocessor preprocessor;
     private final DocumentMapper mapper;
@@ -32,6 +31,10 @@ public class Engine {
          * Do not expand query
          */
         NONE,
+        /**
+         * Auto-detect if a term is negative or positive regarding the query
+         */
+        WEIGHTED,
         /**
          * Expand query using feedback with the top 10 documents in the result set
          */
@@ -63,6 +66,8 @@ public class Engine {
         switch (expansion) {
             case NONE:
                 return searchNonExpanded(query, topK);
+            case WEIGHTED:
+                return searchWeighted(query, topK);
             case PSEUDO_RELEVANCE_FEEDBACK:
 //                return searchWithPseudoRelevanceFeedback(query, topK);
             case LOCAL_ASSOCIATION_ANALYSIS:
@@ -99,23 +104,7 @@ public class Engine {
             }
         }
 
-        scores.replaceAll((i, v) -> scores.get(i) / index.getDocLength(i));
-
-        Map<Integer, Double> sorted = scores.entrySet().stream()
-                .sorted(Map.Entry.<Integer, Double>comparingByValue().reversed())
-                .limit(topK)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-
-        int rank = 0;
-        String docName;
-        List<TRECResult> ret = new ArrayList<>();
-        for (Map.Entry<Integer, Double> entry : sorted.entrySet()) {
-            docName = mapper.map(entry.getKey());
-            ret.add(new TRECResult(query.id, entry.getKey(), docName, rank, entry.getValue()));
-            rank++;
-        }
-
-        return ret;
+        return getTrecResults(query, topK, scores);
     }
 
     /**
@@ -153,6 +142,73 @@ public class Engine {
         results.forEach(r -> r.ranking = results.indexOf(r));
 
         return results.subList(0, Math.min(topK, results.size()));
+    }
+
+    /**
+     * Used for long queries (queryTDN.txt). Query should not be preprocessed.
+     */
+    public List<TRECResult> searchWeighted(TRECQuery query, int topK) {
+        Map<Double, String> weighted = new HashMap<>(); // weight -> terms
+        List<String> sentences = SearchUtils.splitParagraph(query.text);
+        for (String s: sentences) {
+            weighted.put(SearchUtils.getRelevancy(s), weighted.getOrDefault(SearchUtils.getRelevancy(s), "") + " " + s);
+        }
+
+        Map<Integer, Double> scores = new HashMap<>();
+        Map<String, Double> wv;
+        PostingList pl;
+        double docCount = index.getDocCount();
+        double docFreq;
+        double idf;
+        double tfQ;
+        double tfD;
+        double tfidfQ;
+        double tfidfD;
+
+        for (Map.Entry<Double, String> entry : weighted.entrySet()) {
+            double weight = entry.getKey();
+            String text = preprocessor.preprocess(entry.getValue());
+            wv = textToWordVector(text);
+
+            for (String term : wv.keySet()) {
+                pl = index.getPostingList(term);
+                docFreq = pl.getDocFreq();
+                idf = Math.log(docCount / docFreq);
+                tfQ = wv.get(term);
+                tfidfQ = tfQ * idf;
+                for (Posting p : pl) {
+                    tfD = p.getTermFreq();
+                    tfidfD = tfD * idf;
+                    scores.put(p.docId, scores.getOrDefault(p.docId, 0.0) + weight * (tfidfQ * tfidfD));
+                }
+            }
+        }
+
+        return getTrecResults(query, topK, scores);
+    }
+
+    private List<TRECResult> getTrecResults(TRECQuery query, int topK, Map<Integer, Double> scores) {
+        List<Integer> docIds = new ArrayList<>(scores.keySet());
+        List<Double> lengths = index.getDocLengths(docIds);
+        for (int i = 0; i < docIds.size(); i++) {
+            scores.put(docIds.get(i), scores.get(docIds.get(i)) / lengths.get(i));
+        }
+
+        Map<Integer, Double> sorted = scores.entrySet().stream()
+                .sorted(Map.Entry.<Integer, Double>comparingByValue().reversed())
+                .limit(topK)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+
+        int rank = 0;
+        String docName;
+        List<TRECResult> ret = new ArrayList<>();
+        for (Map.Entry<Integer, Double> entry : sorted.entrySet()) {
+            docName = mapper.map(entry.getKey());
+            ret.add(new TRECResult(query.id, entry.getKey(), docName, rank, entry.getValue()));
+            rank++;
+        }
+
+        return ret;
     }
 
     private Map<String, Double> textToWordVector(String text) {

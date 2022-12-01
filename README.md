@@ -31,3 +31,10 @@ usage: java -jar trec.jar
 | ./dat/post.txt     | NA      | Postings File          |
 | ./dat/files.txt    | NA      | Document Metadata      |
 | ./dat/query.txt    | NA      | Query File             |
+
+## Examples
+
+```bash
+# Weighted query
+./gradlew run --args="-r ./dat/queryTDN.txt -o ./dat/TDN1_1000.txt -p ./dat/stopwords.txt -k 1000 -e 1 -t 20"
+```

@@ -1,8 +1,9 @@
 package hk.edu.polyu.comp4133.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.text.BreakIterator;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SearchUtils {
     public static void searchProximity(List<List<Integer>> results, List<Integer> result, List<String> terms, Map<String, List<Integer>> positions, int range) {
@@ -71,5 +72,38 @@ public class SearchUtils {
             array[i] = list.get(i);
         }
         return array;
+    }
+
+    public static List<String> splitParagraph(String p) {
+        List<String> ret = new ArrayList<>();
+
+        BreakIterator iterator = BreakIterator.getSentenceInstance(Locale.US);
+        iterator.setText(p);
+        int start = iterator.first();
+        for (int end = iterator.next(); end != BreakIterator.DONE; start = end, end = iterator.next()) {
+            ret.add(p.substring(start, end));
+        }
+
+        return ret;
+    }
+
+    static Map<String, Double> weights;
+
+    static {
+        weights = new HashMap<>();
+        weights.put("relevant", 1.5);
+        weights.put("irrelevant", -1.0);
+        weights.put("not relevant", -1.0);
+    }
+    public static double getRelevancy(String s) {
+        if (s.contains("not relevant")) {
+            return -1;
+        } else if (s.contains("irrelevant")) {
+            return -1;
+        } else if (s.contains("relevant")) {
+            return 2.0;
+        } else {
+            return 2.0;
+        }
     }
 }

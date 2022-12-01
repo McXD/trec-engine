@@ -5,10 +5,7 @@ import org.junit.jupiter.api.Test;
 import redis.clients.jedis.Jedis;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -39,5 +36,11 @@ class RedisInvertedFileTest {
             tasks.add(inv.calcDocLengthPartTask(corpusSize, new HashSet<>(partition)));
         }
         es.invokeAll(tasks);
+    }
+
+    @Test
+    void getDocLengths() {
+        RedisInvertedFile inv = new RedisInvertedFile("localhost", 6379);
+        System.out.println(inv.getDocLengths(new ArrayList<>(Arrays.asList(1,2,3,5,8,13,21))));
     }
 }

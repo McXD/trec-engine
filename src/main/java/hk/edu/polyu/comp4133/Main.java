@@ -45,7 +45,7 @@ public class Main {
                 buildDocMap(input, nThreads);
             } else if (cmd.hasOption("r")) {
                 String queryPath = cmd.getOptionValue("r");
-                String outputPath = cmd.getOptionValue("o");
+                String outputPath = cmd.getOptionValue("o", "stdout");
                 String stopWordPath = cmd.getOptionValue("p");
                 int mode = Integer.parseInt(cmd.getOptionValue("m", "0"));
                 int topK = Integer.parseInt(cmd.getOptionValue("k"));
@@ -88,7 +88,12 @@ public class Main {
         Engine.QueryMode modeEnum = Engine.QueryMode.values()[mode];
         BufferedReader queries = new BufferedReader(new FileReader(queryFilePath));
         long total = Files.lines(new File(queryFilePath).toPath()).count();
-        BufferedWriter output = new BufferedWriter(new FileWriter(outputPath));
+        BufferedWriter output;
+        if (outputPath.equals("stdout")) {
+            output = new BufferedWriter(new OutputStreamWriter(System.out));
+        } else {
+            output = new BufferedWriter(new FileWriter(outputPath));
+        }
         InvertedFile inv = new RedisInvertedFile(System.getenv("REDIS_HOST"), Integer.parseInt(System.getenv("REDIS_PORT")));
         RedisDocumentMapper docMap = new RedisDocumentMapper(System.getenv("REDIS_HOST"), Integer.parseInt(System.getenv("REDIS_PORT")));
         Preprocessor preprocessor = new Preprocessor(stopWordPath);
